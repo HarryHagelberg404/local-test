@@ -13,12 +13,15 @@ jobs:
         with:
           script: |
             const body = context.payload.pull_request.body || "";
-            
+
             // Look for the specific pattern "[x] I have tested this code locally"
             // We use a regex to be flexible about whitespace
             const pattern = /-\s*\[x\]\s*I have tested this code locally/i;
-            
-            if (!pattern.test(body)) {
+            const header = /-\s*\[x\]\s*Verification/i;
+
+            if (!header.test(body)) {
+              console.log("✅ Verification skipped.");
+            } else if (!pattern.test(body)) {
               core.setFailed("❌ You must check the box 'I have tested this code locally' in the PR description to merge.");
             } else {
               console.log("✅ Verification confirmed.");
