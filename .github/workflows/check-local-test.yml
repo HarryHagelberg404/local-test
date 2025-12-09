@@ -15,7 +15,7 @@ jobs:
             const body = context.payload.pull_request.body || "";
             const title = context.payload.pull_request.title;
 
-            const enforcedTitlePattern = /^(feature)(\(.*\))?:/i;
+            const enforcedTitlePattern = /^(feature|bug)(\(.*\))?:/i;
 
             if (!enforcedTitlePattern.test(title)) {
               console.log("✅ Skipping check: PR title does not require manual verification.");
@@ -23,7 +23,7 @@ jobs:
             }
 
             const pattern = /-\s*\[x\]\s*I have tested this code locally/i;
-            const header = /-\s*\[x\]\s*Verification/i;
+            const header = /##\s*Verification/i;
 
             if (!header.test(body)) {
               console.log("✅ Verification skipped.");
