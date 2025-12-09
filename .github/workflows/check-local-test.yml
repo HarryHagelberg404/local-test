@@ -13,9 +13,15 @@ jobs:
         with:
           script: |
             const body = context.payload.pull_request.body || "";
+            const title = context.payload.pull_request.title;
 
-            // Look for the specific pattern "[x] I have tested this code locally"
-            // We use a regex to be flexible about whitespace
+            const enforcedTitlePattern = /^(feature)(\(.*\))?:/i;
+
+            if (!enforcedTitlePattern.test(title)) {
+              console.log("✅ Skipping check: PR title does not require manual verification.");
+              return;
+            }
+
             const pattern = /-\s*\[x\]\s*I have tested this code locally/i;
             const header = /-\s*\[x\]\s*Verification/i;
 
