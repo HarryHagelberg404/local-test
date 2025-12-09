@@ -23,7 +23,7 @@ jobs:
             }
 
             const pattern = /-\s*\[x\]\s*I have tested this code locally/i;
-            const header = /-\s*\[x\]\s*Verification/i;
+            const header = /##\s*Verification/i;
 
             if (!header.test(body)) {
               console.log("✅ Verification skipped.");
